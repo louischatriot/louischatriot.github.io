@@ -40,10 +40,10 @@ function fibBinet (n) {
 
 
 // Truly logarithmic and precise except when integers become too large (due to substraction)
-function figLog (n) {
+function fibLog (n) {
   if (n === 0) { return 0; }
   if (n === 1) { return 1; }
   if (n === 2) { return 1; }
 
-  return Math.pow(figLog(Math.floor(n / 2) + 1), 2) - Math.pow(-1, n) * Math.pow(figLog(Math.floor((n - 1) / 2)), 2)
+  return Math.pow(fibLog(Math.floor(n / 2) + 1), 2) - Math.pow(-1, n) * Math.pow(fibLog(Math.floor((n - 1) / 2)), 2)
 }
