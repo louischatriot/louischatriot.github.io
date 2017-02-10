@@ -123,11 +123,16 @@ document.getElementById("select-world").addEventListener("change", function () {
   if (world === "world3") { changeWorld(world3); }
 });
 
-document.getElementById("go").addEventListener("click", function () {
+function goPressed () {
   var events = document.getElementById("events").value;
   events = parseInt(events, 10);
   if (isNaN(events)) { return; }
   simulateMultipleEvents(events);
+}
+
+document.getElementById("go").addEventListener("click", goPressed);
+document.getElementById("events").addEventListener("keypress", function (e) {
+  if (e.keyCode === 13) { goPressed(); }
 });
 
 
