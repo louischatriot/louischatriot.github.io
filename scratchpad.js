@@ -41,8 +41,11 @@
 
 
 
-  function gcd (a, b) {   // Assumes a > b and a,b != 0
-    var r = a % b;   // Remainder of the Euclidian division of a by b
+  function gcd (a, b) {
+    // Ensure a >= b
+    if (a < b) { var t = b; b = a; a = t; }
+
+    var r = a - b;
 
     if (r === 0) {
       return b;
