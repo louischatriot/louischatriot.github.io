@@ -123,10 +123,12 @@ function reloadGraph (data, prefix, suffix) {
 
 // URL-safe encoding / decoding functions
 function encode (s) {
-  return btoa(s).replace(/=/g,"!");
+  //return btoa(s).replace(/=/g,"!");
+  return encodeURIComponent(s).replace(/=/g,"!");
 }
 function decode (s) {
-  return atob(s.replace(/!/g,"="));
+  //return atob(s.replace(/!/g,"="));
+  return decodeURIComponent(s.replace(/!/g,"="));
 }
 
 
