@@ -1,16 +1,19 @@
 <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="waterfall.css">
+    <title>Waterfall chart creator</title>
+  </head>
+  <body>
 
-<title>Waterfall chart creator</title>
-<meta charset="utf-8">
-<link rel="stylesheet" type="text/css" href="waterfall.css">
-
-<svg class="chart"></svg>
-<div id="data-pane">
-  Prefix: <input type="text" id="prefix" value="$ "><br>
-  Suffix: <input type="text" id="suffix" value="K"><br>
-  <br><br>
-  Data:<br>
-  <textarea id="data">
+    <svg class="chart"></svg>
+    <div id="data-pane">
+      Prefix: <input type="text" id="prefix" value="$ "><br>
+      Suffix: <input type="text" id="suffix" value="K"><br>
+      <br><br>
+      Data:<br>
+      <textarea id="data">
 name,value,type
 Price,120,total
 COGS,-30,
@@ -20,12 +23,12 @@ Royalties,17
 R&D,-7
 Marketing & Sales,-22
 Net margin,,total
-  </textarea>
-</div>
+      </textarea>
+    </div>
 
-<script src="d3.v3.min.js"></script>
-<script src="jquery-3.2.1.min.js"></script>
-<script src="papaparse.min.js"></script>
-<script src="waterfall.js"></script>
-
-
+    <script src="d3.v3.min.js"></script>
+    <script src="jquery-3.2.1.min.js"></script>
+    <script src="papaparse.min.js"></script>
+    <script src="waterfall.js"></script>
+  </body>
+</html>
