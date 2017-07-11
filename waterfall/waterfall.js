@@ -123,12 +123,10 @@ function reloadGraph (data, prefix, suffix) {
 
 // URL-safe encoding / decoding functions
 function encode (s) {
-  //return btoa(s).replace(/=/g,"!");
-  return encodeURIComponent(s).replace(/=/g,"!");
+  return encodeURIComponent(s);
 }
 function decode (s) {
-  //return atob(s.replace(/!/g,"="));
-  return decodeURIComponent(s.replace(/!/g,"="));
+  return decodeURIComponent(s);
 }
 
 
@@ -148,7 +146,7 @@ function newData (init) {
 
 // Fill the graph with given data or dummy default data
 function resetGraph (d) {
-  var prefix = "$ ", suffix = "K", data = "name,value,type";
+  var prefix = "€ ", suffix = "K", data = "name,value,type";
   d = d || {};
 
   data += "\n" + "Price,120,total";
