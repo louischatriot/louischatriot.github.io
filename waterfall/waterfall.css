@@ -48,6 +48,8 @@ div {
 #data {
   width: 95%;
   height: 500px;
+  font-family: monospace;
+  font-size: 12px;
 }
 
 
