@@ -158,9 +158,8 @@ function resetGraph (d) {
   data += "\n" + "Marketing & Sales,-22";
   data += "\n" + "Net margin,,total";
 
-
-  $("#prefix").val(d.prefix || prefix);
-  $("#suffix").val(d.suffix || suffix);
+  $("#prefix").val(d.prefix === undefined ? prefix : d.prefix);
+  $("#suffix").val(d.suffix === undefined ? suffix : d.suffix);
   $("#data")[0].value = d.data || data;
 }
 
