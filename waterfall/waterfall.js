@@ -139,8 +139,29 @@ function newData (init) {
 
   if (!init) {
     var qs = "?prefix=" + encode(prefix) + "&suffix=" + encode(suffix) + "&data=" + encode(data);
-    history.pushState({}, "Graph", qs);
+    history.replaceState({}, "Graph", qs);
   }
+}
+
+
+// Fill the graph with given data or dummy default data
+function resetGraph (d) {
+  var prefix = "$ ", suffix = "K", data = "name,value,type";
+  d = d || {};
+
+  data += "\n" + "Price,120,total";
+  data += "\n" + "COGS,-30,";
+  data += "\n" + "Shipping,-12,";
+  data += "\n" + "Gross margin,,total";
+  data += "\n" + "Royalties,17";
+  data += "\n" + "R&D,-7";
+  data += "\n" + "Marketing & Sales,-22";
+  data += "\n" + "Net margin,,total";
+
+
+  $("#prefix").val(d.prefix || prefix);
+  $("#suffix").val(d.suffix || suffix);
+  $("#data")[0].value = d.data || data;
 }
 
 
@@ -152,11 +173,8 @@ if (_initialData && _initialData.length > 0) {
     d = d.split("=");
     initialData[d[0]] = decode(d[1]);
   });
-  console.log(initialData);
-  $("#prefix").val(initialData.prefix);
-  $("#suffix").val(initialData.suffix);
-  $("#data")[0].value = initialData.data;
 }
+resetGraph(initialData);
 newData(true);
 
 
@@ -165,6 +183,14 @@ $("#prefix").on("keyup", function () { newData(); });
 $("#suffix").on("keyup", function () { newData(); });
 $("#data").on("keyup", function () { newData(); });
 
+// Reset graph when reset button pressed
+$("#reset").on("click", function () {
+  if (!confirm("Reset the graph? This will erase all data in the data pane")) { return; }
+
+  resetGraph();
+  newData(true);
+  history.replaceState({}, "Graph", window.location.pathname);
+});
 
 
 

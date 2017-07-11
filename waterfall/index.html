@@ -9,21 +9,12 @@
 
     <svg class="chart"></svg>
     <div id="data-pane">
-      Prefix: <input type="text" id="prefix" value="$ "><br>
-      Suffix: <input type="text" id="suffix" value="K"><br>
+      <input type="button" id="reset" value="Reset graph"><br><br>
+      Prefix: <input type="text" id="prefix"><br>
+      Suffix: <input type="text" id="suffix"><br>
       <br><br>
       Data:<br>
-      <textarea id="data">
-name,value,type
-Price,120,total
-COGS,-30,
-Shipping,-12,
-Gross margin,,total
-Royalties,17
-R&D,-7
-Marketing & Sales,-22
-Net margin,,total
-      </textarea>
+      <textarea id="data"></textarea>
     </div>
 
     <script src="d3.v3.min.js"></script>
