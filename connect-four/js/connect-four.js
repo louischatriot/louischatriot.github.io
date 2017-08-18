@@ -9,6 +9,8 @@ var rows = 6, columns = 7
   , container
   , margin = 0.025   // In percent of cell size, on all directions
   , marginLeft, marginTop
+  , gameFinished
+  , animationDelay = 600
   ;
 
 function createEmptyBoard () {
@@ -64,9 +66,14 @@ function init () {
              .attr("y2", (topRows + rows) * cellSize)
              ;
   }
+
+  // Set game as not finished (of course ...)
+  gameFinished = false;
 }
 
-function play(c) {
+function play (c) {
+  if (gameFinished) { return; }
+
   for (var r = 0; r < rows; r += 1) {
     if (board[c][r] === 0) {
       board[c][r] = currentPlayer;
@@ -75,9 +82,10 @@ function play(c) {
                           .attr("cx", (c + 0.5) * cellSize)
                           .attr("cy", (topRows / 2) * cellSize)
                           .attr("r", cellSize / 2.25);
-      chip.transition().duration(600)
+      chip.transition().duration(animationDelay)
           .attr("cy", (topRows + rows - r - 0.5) * cellSize);
       currentPlayer *= -1;
+      checkWin();
       break;
     }
   }
@@ -89,18 +97,60 @@ function play(c) {
 function checkWin () {
   var horizontal = createEmptyBoard()
     , vertical = createEmptyBoard()
-    , diag = createEmptyBoard()
+    , diag1 = createEmptyBoard()
+    , diag2 = createEmptyBoard()
     ;
 
+  // Assumes d is smaller than rows and columns
   for (var d = 0; d < 4; d += 1) {
+    // Horizontals
     for (var i = 0; i < columns - d; i += 1) {
       for (var j = 0; j < rows; j += 1) {
-        horizontal[i][j] += board[i+d][j];
+        horizontal[i][j] += board[i + d][j];
+      }
+    }
+
+    // Verticals
+    for (var i = 0; i < columns; i += 1) {
+      for (var j = 0; j < rows - d; j += 1) {
+        vertical[i][j] += board[i][j + d];
+      }
+    }
+
+    // Diagonals
+    for (var i = 0; i < columns - d; i += 1) {
+      for (var j = 0; j < rows - d; j += 1) {
+        diag1[i][j] += board[i + d][j + d];
+      }
+    }
+    for (var i = d; i < columns; i += 1) {
+      for (var j = 0; j < rows - d; j += 1) {
+        diag2[i][j] += board[i - d][j + d];
       }
     }
   }
 
-  displayBoard(horizontal);
+  [ { set: horizontal, dx: 1, dy: 0 }
+  , { set: vertical, dx: 0, dy: 1 }
+  , { set: diag1, dx: 1, dy: 1 }
+  , { set: diag2, dx: -1, dy: 1 }
+  ].forEach(function (b) {
+    for (var i = 0; i < columns; i += 1) {
+      for (var j = 0; j < rows; j += 1) {
+        if (Math.abs(b.set[i][j]) === 4) {
+          for (var d = 0; d < 4; d += 1) {
+            gameFinished = true;
+            container.append("circle")
+                     .transition().delay(animationDelay)
+                     .attr("class", "victory chip-" + color(currentPlayer))
+                     .attr("cx", (i + (b.dx * d) + 0.5) * cellSize)
+                     .attr("cy", (topRows + rows - j - (b.dy * d) - 0.5) * cellSize)
+                     .attr("r", cellSize / 7);
+          }
+        }
+      }
+    }
+  });
 }
 
 
@@ -127,6 +177,8 @@ function color (player) {
 var selectedColumn, mobileEvent;
 
 function drawShadow (c) {
+  if (gameFinished) { return; }   // A bit ugly ...
+
   container.append("circle")
            .attr("class", "shadow chip-" + color(currentPlayer))
            .attr("cx", (c + 0.5) * cellSize)

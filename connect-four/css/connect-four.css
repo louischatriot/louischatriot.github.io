@@ -15,6 +15,11 @@
   fill: #ffd300;
 }
 
+#container .victory {
+  stroke-width: 0;
+  fill: #000;
+}
+
 #container .shadow {
   opacity: 0.4;
 }
