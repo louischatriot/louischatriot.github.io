@@ -3,10 +3,6 @@
   stroke-width: 2px;
 }
 
-#container circle {
-  transition: cy 1s;
-}
-
 #container .chip-red {
   stroke: black;
   stroke-width: 2;

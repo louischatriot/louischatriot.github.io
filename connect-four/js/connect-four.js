@@ -11,19 +11,22 @@ var rows = 6, columns = 7
   , marginLeft, marginTop
   ;
 
-
-function init () {
-  console.log("INITIALIZATION");
-
-  // Empty board
-  board = [];
+function createEmptyBoard () {
+  var board = [];
   for (var i = 0; i < columns; i += 1) {
     board[i] = [];
     for (var j = 0; j < rows; j += 1) {
       board[i][j] = 0;
     }
   }
+  return board;
+}
 
+function init () {
+  console.log("INITIALIZATION");
+
+  // Empty board
+  board = createEmptyBoard();
   currentPlayer = 1;   // Yellow starts
 
   // Calculate dimensions for drawing (use the largest viewport that can accomodate full grid and top rows)
@@ -63,26 +66,17 @@ function init () {
   }
 }
 
-// If chip is supplied, use it as next chip
-function play(c, chip) {
+function play(c) {
   for (var r = 0; r < rows; r += 1) {
     if (board[c][r] === 0) {
       board[c][r] = currentPlayer;
-
-      if (!chip) {
-        removeShadow();
-        container.append("circle")
-                 .attr("class", "chip-" + color(currentPlayer))
-                 .attr("cx", (c + 0.5) * cellSize)
-                 .attr("cy", (topRows + rows - r - 0.5) * cellSize)
-                 .attr("r", cellSize / 2.25)
-      } else {
-        chip.style("opacity", 1)
-            .attr("class", "chip-" + color(currentPlayer))
-            ;
-
-        chip.attr("cy", (topRows + rows -r - 0.5) * cellSize);
-      }
+      var chip = container.append("circle")
+                          .attr("class", "chip-" + color(currentPlayer))
+                          .attr("cx", (c + 0.5) * cellSize)
+                          .attr("cy", (topRows / 2) * cellSize)
+                          .attr("r", cellSize / 2.25);
+      chip.transition().duration(600)
+          .attr("cy", (topRows + rows - r - 0.5) * cellSize);
       currentPlayer *= -1;
       break;
     }
@@ -92,16 +86,27 @@ function play(c, chip) {
   //displayBoard();   // debug
 }
 
+function checkWin () {
+  var horizontal = createEmptyBoard()
+    , vertical = createEmptyBoard()
+    , diag = createEmptyBoard()
+    ;
+
+  for (var d = 0; d < 4; d += 1) {
+    for (var i = 0; i < columns - d; i += 1) {
+      for (var j = 0; j < rows; j += 1) {
+        horizontal[i][j] += board[i+d][j];
+      }
+    }
+  }
+
+  displayBoard(horizontal);
+}
+
 
 
 // Return -1 if out of bounds
 function colFromEvent (e) {
-  //alert(e);
-  //alert(e.touches);
-  //alert(e.touches[0]);
-  //alert(e.touches[0].pageX);
-
-
   var parentOffset = $(e.srcElement).parent().offset()
     , relativeX = (e.pageX !== undefined ? e.pageX : e.page.x) - parentOffset.left - marginLeft
     , c = Math.floor(relativeX / cellSize)
@@ -144,10 +149,8 @@ function clicked (e) {
   }
 
   if (selectedColumn !== undefined && selectedColumn === c) {
-    play(c, d3.select(".shadow"));
-    console.log("------------------");
-    return;
     removeShadow();
+    play(c);
     selectedColumn = undefined;
   } else {
     selectedColumn = c;
@@ -219,13 +222,17 @@ $(document.body).on("touchmove", function(event) {
 
 
 // Debug
-function displayBoard () {
+function displayBoard (_board) {
   var line;
 
   for (var i = rows - 1; i >= 0; i -= 1) {
     line = "";
     for (var j = 0; j < columns; j += 1) {
-      line += (board[j][i] === 0 ? "." : (board[j][i] === 1 ? "Y" : "R")) + "  ";
+      if (_board) {
+        line += (_board[j][i] === 0 ? "." : _board[j][i]) + "  ";
+      } else {
+        line += (board[j][i] === 0 ? "." : (board[j][i] === 1 ? "Y" : "R")) + "  ";
+      }
     }
     line += "                    " + Math.random();   // Quick hack to avoid line collapsing in Chrome console :)
     console.log(line);
