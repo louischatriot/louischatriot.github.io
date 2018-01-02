@@ -18,22 +18,28 @@
       <div id="data">
         Option exercise price ($): <input type="text" value="1.13" id="option-exercise-price"><br><br>
         Stock market value at sale ($): <input type="text" value="4.03" id="stock-market-value"><br><br>
+        Years before liquidity event occurs($): <input type="text" value="3" id="years-before-liquidity"><br><br>
         Cut-off CAGR: <input type="text" value="8%" id="cutoff-cagr"><br><br>
-        Share of gains: <input type="text" value="20%" id="cutoff-cagr"><br><br>
-        Number of options to purchase: <input type="text" value="10000" id="cutoff-cagr"><br><br>
+        Share of gains: <input type="text" value="20%" id="share-of-gains"><br><br>
+        Number of options to purchase: <input type="text" value="10000" id="number-options"><br><br>
       </div>
 
       <br>
       <h2><strong>Output</strong></h2>
       <hr>
       <div id="output">
-        fff
+        Buyer paid <span class="data-point" id="buyer-paid"></span> and makes <span class="data-point" id="buyer-gain"></span> for a net gain of
+        <span class="data-point" id="buyer-net-gain"></span> on every option.
+        This corresponds to a total return on investment of <span class="data-point" id="buyer-total-growth"></span>
+        (an annual growth of <span class="data-point" id="buyer-annual-growth"></span>).
+        <br><br>
+        Seller makes <span class="data-point" id="seller-gain"></span> on every option.
 
       </div>
     </div>
 
     <script src="js/d3.v3.min.js"></script>
-    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.js"></script>
     <script src="js/index.js"></script>
   </body>
 </html>

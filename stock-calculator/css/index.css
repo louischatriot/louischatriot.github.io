@@ -8,3 +8,6 @@ body {
   line-height: 1.65;
 }
 
+.data-point {
+  font-weight: bold;
+}
