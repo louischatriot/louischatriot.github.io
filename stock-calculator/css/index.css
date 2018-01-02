@@ -8,6 +8,28 @@ body {
   line-height: 1.65;
 }
 
+.container {
+  margin-bottom: 300px;
+}
+
 .data-point {
   font-weight: bold;
 }
+
+#graph {
+  width: 100%;
+  height: 280px;
+  border: 1px solid black;
+}
+
+
+.axis--x path {
+  /*display: none;*/
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
